@@ -98,15 +98,38 @@ async function main() {
       1
     )}", Faltas "${absences}", Situação "${situation}", Nota para Aprovação Final "${finalApprovalScore}"\n`;
 
+    console.log(registerLog);
+
     logStream.write(registerLog);
   }
 
   // Closing log flux
   logStream.end();
 
-  // Saving the changes to the spreadsheet
-  await sheet.saveUpdatedCells();
-}
+  try {
+    // Saving the changes to the spreadsheet and waiting for the result
+    const result = await sheet.saveUpdatedCells();
 
+    // Log the success message
+    if (result !== undefined) {
+      console.log("Spreadsheet updated successfully.", result);
+    } else {
+      console.log("Spreadsheet updated successfully.");
+    }
+
+    // Save to the log file after successfully saving to the spreadsheet
+    logStream.write("Changes successfully saved to the spreadsheet.\n");
+    console.log("Changes successfully saved to the spreadsheet.\n");
+  } catch (error) {
+    // Log the error message
+    console.error("Error updating spreadsheet: ", error.message);
+
+    // If there is an error, save to the log file
+    logStream.write(`Error updating spreadsheet: ${error.message}\n`);
+  } finally {
+    // Close the log file stream
+    logStream.end();
+  }
+}
 // Calling the main function to execute the script
 main();
