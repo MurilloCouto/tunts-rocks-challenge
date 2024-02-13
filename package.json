@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "google-auth-library": "^8.8.0",
+    "google-spreadsheet": "^4.1.1",
+    "math-round": "^1.0.0",
+    "moment": "^2.30.1"
+  }
+}
